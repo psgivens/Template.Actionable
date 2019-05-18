@@ -1,0 +1,12 @@
+{
+    "author": "Phillip Scott Givens",
+    "classifications": [ "Web", "Actors" ],
+    "name": "Actionable Microservice",
+    "identity": "Actionable.Microservices",        // Unique name for this template
+    "shortName": "actionable",                 // Short name that can be used on the cli
+    "tags": {
+        "language": "F#"                       // Specify that this template is in F#.
+    },
+    "sourceName": "Template.Actionable",      // Will replace the string 'Sayedha.StarterWeb' with the value provided via -n.
+    "preferNameDirectory" : "true"
+}
