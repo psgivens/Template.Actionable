@@ -7,6 +7,6 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="src/DomainTypes.fs" />
-    <Compile Include="src/UserManagement.fs" />
+    <Compile Include="src/WidgetManagement.fs" />
   </ItemGroup>
 </Project>

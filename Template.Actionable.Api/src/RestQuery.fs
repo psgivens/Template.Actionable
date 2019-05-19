@@ -8,14 +8,14 @@ open Suave.Successful
 open Common.FSharp.Suave
 open Template.Actionable.Domain
 
-let getUser userIdString =
-  DAL.UserManagement.findUserByEmail userIdString
+let getWidget userIdString =
+  DAL.WidgetManagement.findWidgetByName userIdString
   |> convertToDto
   |> toJson 
   |> OK
 
-let getUsers (ctx:HttpContext) =
-  DAL.UserManagement.getAllUsers ()
+let getWidgets (ctx:HttpContext) =
+  DAL.WidgetManagement.getAllWidgets ()
   |> List.map convertToDto
   |> toJson
   |> OK

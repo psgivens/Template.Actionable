@@ -7,7 +7,7 @@ open Akka.FSharp
 open Template.Actionable.Domain
 open Common.FSharp.Envelopes
 open Template.Actionable.Domain.DomainTypes
-open Template.Actionable.Domain.UserManagement
+open Template.Actionable.Domain.WidgetManagement
 open Template.Actionable.Domain
 open Common.FSharp.Actors
 
@@ -22,21 +22,21 @@ open Suave
 open Common.FSharp.Suave
 
 type ActorGroups = {
-    UserManagementActors:ActorIO<UserManagementCommand>
+    WidgetManagementActors:ActorIO<WidgetManagementCommand>
     }
 
 let composeActors system =
     // Create member management actors
-    let userManagementActors = 
+    let widgetManagementActors = 
         EventSourcingActors.spawn 
             (system,
-             "userManagement", 
-             UserManagementEventStore (),
-             buildState UserManagement.evolve,
-             UserManagement.handle,
-             DAL.UserManagement.persist)    
+             "widgetManagement", 
+             WidgetManagementEventStore (),
+             buildState WidgetManagement.evolve,
+             WidgetManagement.handle,
+             DAL.WidgetManagement.persist)    
              
-    { UserManagementActors=userManagementActors }
+    { WidgetManagementActors=widgetManagementActors }
 
 
 let initialize () = 
@@ -53,9 +53,9 @@ let initialize () =
     printfn "Composing the actors..."
     let actorGroups = composeActors system
 
-    let userCommandRequestReplyCanceled = 
-      RequestReplyActor.spawnRequestReplyActor<UserManagementCommand, UserManagementEvent> 
-        system "user_management_command" actorGroups.UserManagementActors
+    let widgetCommandRequestReplyCanceled = 
+      RequestReplyActor.spawnRequestReplyActor<WidgetManagementCommand, WidgetManagementEvent> 
+        system "widget_management_command" actorGroups.WidgetManagementActors
 
     let runWaitAndIgnore = 
       Async.AwaitTask
@@ -65,19 +65,18 @@ let initialize () =
     let userId = UserId.create ()
     let envelop streamId = envelopWithDefaults userId (TransId.create ()) streamId
 
-    printfn "Creating user..."
+    printfn "Creating widget..."
     { 
-        FirstName="Phillip"
-        LastName="Givens"
-        Email="one@three.com"
+        Name="Spacely Sprocket"
+        Description="Important sprocket for creating floating houses and cars."
     }
-    |> UserManagementCommand.Create
+    |> WidgetManagementCommand.Create
     |> envelop (StreamId.create ())
-    |> userCommandRequestReplyCanceled.Ask
+    |> widgetCommandRequestReplyCanceled.Ask
     |> runWaitAndIgnore
 
-    let user = Template.Actionable.Domain.DAL.UserManagement.findUserByEmail "one@three.com"
-    printfn "Created User %s with userId %A" user.Email user.Id         
+    let widget = Template.Actionable.Domain.DAL.WidgetManagement.findWidgetByName "Spacely Sprocket"
+    printfn "Created Widget %s with userId %A" widget.Name widget.Id         
 
     actorGroups
 
@@ -97,7 +96,7 @@ let inline private getDomainContext (ctx:HttpContext) :DomainContext =
 
 let authenticationHeaders (p:HttpRequest) = 
   let h = 
-    ["user_id"; "transaction_id"]
+    ["widget_id"; "transaction_id"]
     |> List.map (p.header >> Option.ofChoice)
 
   match h with

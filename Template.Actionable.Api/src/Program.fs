@@ -11,7 +11,7 @@ open Suave.RequestErrors
 open Common.FSharp.Suave
 
 open Template.Actionable.Api.ProcessingSystem
-open Template.Actionable.Api.UserCommands
+open Template.Actionable.Api.WidgetCommands
 open Template.Actionable.Api.RestQuery
 
 let app =
@@ -21,14 +21,14 @@ let app =
           // All requests are handled together because CQRS
           GET >=> choose
             [ pathCi "/" >=> OK "Default route"
-              pathCi "/users" >=> (getUsers |> Suave.Http.context) 
-              pathScanCi "/users/%s" getUser
+              pathCi "/widgets" >=> (getWidgets |> Suave.Http.context) 
+              pathScanCi "/widgets/%s" getWidget
             ]            
 
-          // User commands
-          POST >=> pathCi "/users" >=> restful postUser
-          PUT >=> pathScanCi "/users/%s" (restfulPathScan putUser)
-          DELETE >=> pathScanCi "/users/%s" deleteUser
+          // Widget commands
+          POST >=> pathCi "/widgets" >=> restful postWidget
+          PUT >=> pathScanCi "/widgets/%s" (restfulPathScan putWidget)
+          DELETE >=> pathScanCi "/widgets/%s" deleteWidget
 
           // Role commands
           BAD_REQUEST "Request path was not found"

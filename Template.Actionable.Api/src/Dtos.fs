@@ -2,14 +2,12 @@ module Template.Actionable.Api.Dtos
 
 open Template.Actionable.Data.Models
 
-type UserDto = { 
+type WidgetDto = { 
     id : string
-    first_name : string 
-    last_name : string
-    email : string }
+    name : string 
+    description : string }
 
-let convertToDto (user:User) = { 
-  UserDto.email = user.Email
-  first_name = user.FirstName
-  last_name = user.LastName
-  id = user.Id.ToString () }
+let convertToDto (widget:Widget) = {
+  WidgetDto.id = widget.Id.ToString () 
+  name = widget.Name
+  description = widget.Description }

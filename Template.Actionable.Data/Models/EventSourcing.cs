@@ -26,7 +26,5 @@ namespace Template.Actionable.Data.Models
         public virtual System.DateTimeOffset TimeStamp { get; set; }
         public virtual string Event { get; set; }
     }
-    public class UserEventEnvelopeEntity : EnvelopeEntityBase { }
-    public class GroupEventEnvelopeEntity : EnvelopeEntityBase { }
-    public class RoleEventEnvelopeEntity : EnvelopeEntityBase { }
+    public class WidgetEventEnvelopeEntity : EnvelopeEntityBase { }
 }

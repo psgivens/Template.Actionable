@@ -22,7 +22,7 @@ $domain = "http://localhost:8080"
 
 
 $contextHeaders = @{
-    user_id='Phillip Scott Givens'
+    widget_id='Phillip Scott Givens'
     transaction_id='somevalue'
 }
 
@@ -40,19 +40,19 @@ Invoke-WebRequest `
     
 
 # Default route
-$users = Invoke-RestMethod `
+$widgets = Invoke-RestMethod `
   -Method GET `
-  -Uri $domain/users `
+  -Uri $domain/widgets `
   -Headers $contextHeaders 
-$users | measure | %{ if ($_.Count -le 1) { Write-Error "no users found." } }
+$widgets | measure | %{ if ($_.Count -le 1) { Write-Error "no widgets found." } }
 
 
 # Default route
-$user = Invoke-RestMethod `
+$widget = Invoke-RestMethod `
   -Method GET `
-  -Uri $domain/users/one@three.com `
+  -Uri $domain/widgets/one@three.com `
   -Headers $contextHeaders 
-if ($user -eq $null) { Write-Error "no user found." } 
+if ($widget -eq $null) { Write-Error "no widget found." } 
 
 
 $joseph = @{ 
@@ -62,8 +62,8 @@ $joseph = @{
 }
 $ret = Invoke-RestMethod `
   -Method Post `
-  -Uri $domain/users `
+  -Uri $domain/widgets `
   -Headers $contextHeaders 
-if ($user -eq $null) { Write-Error "no user found." } 
+if ($widget -eq $null) { Write-Error "no widget found." } 
 
 

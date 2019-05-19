@@ -5,9 +5,9 @@ open Newtonsoft.Json
 open Microsoft.EntityFrameworkCore
 
 
-type Template.ActionableDbContext with 
+type ActionableDbContext with 
     member this.GetAggregateEvents<'a,'b when 'b :> EnvelopeEntityBase and 'b: not struct>
-        (dbset:Template.ActionableDbContext->DbSet<'b>)
+        (dbset:ActionableDbContext->DbSet<'b>)
         (StreamId.Id (aggregateId):StreamId)
         :seq<Envelope<'a>>= 
         query {
@@ -25,20 +25,20 @@ type Template.ActionableDbContext with
                 Item = (JsonConvert.DeserializeObject<'a> event.Event)
             })
 
-open Template.Actionable.Domain.UserManagement
-type UserManagementEventStore () =
-    interface IEventStore<UserManagementEvent> with
+open Template.Actionable.Domain.WidgetManagement
+type WidgetManagementEventStore () =
+    interface IEventStore<WidgetManagementEvent> with
         member this.GetEvents (streamId:StreamId) =
-            use context = new  Template.ActionableDbContext ()
+            use context = new  ActionableDbContext ()
             streamId
-            |> context.GetAggregateEvents (fun i -> i.UserEvents) 
+            |> context.GetAggregateEvents (fun i -> i.WidgetEvents) 
             |> Seq.toList 
             |> List.sortBy(fun x -> x.Version)
-        member this.AppendEvent (envelope:Envelope<UserManagementEvent>) =
+        member this.AppendEvent (envelope:Envelope<WidgetManagementEvent>) =
             try
-                use context = new Template.ActionableDbContext ()
-                context.UserEvents.Add (
-                    UserEventEnvelopeEntity (  Id = envelope.Id,
+                use context = new ActionableDbContext ()
+                context.WidgetEvents.Add (
+                    WidgetEventEnvelopeEntity (  Id = envelope.Id,
                                             StreamId = StreamId.unbox envelope.StreamId,
                                             UserId = UserId.unbox envelope.UserId,
                                             TransactionId = TransId.unbox envelope.TransactionId,

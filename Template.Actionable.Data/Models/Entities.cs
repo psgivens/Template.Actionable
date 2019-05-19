@@ -4,12 +4,11 @@ using System.ComponentModel.DataAnnotations;
 
 namespace Template.Actionable.Data.Models
 {
-    public class User
+    public class Widget
     {
         [Key]
         public System.Guid Id { get; set; }
-        public string FirstName { get; set; }
-        public string LastName { get; set; }
-        public string Email { get; set; }
+        public string Name { get; set; }
+        public string Description { get; set; }
     }
 }
