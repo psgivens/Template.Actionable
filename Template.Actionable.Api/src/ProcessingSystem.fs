@@ -96,7 +96,7 @@ let inline private getDomainContext (ctx:HttpContext) :DomainContext =
 
 let authenticationHeaders (p:HttpRequest) = 
   let h = 
-    ["widget_id"; "transaction_id"]
+    ["user_id"; "transaction_id"]
     |> List.map (p.header >> Option.ofChoice)
 
   match h with

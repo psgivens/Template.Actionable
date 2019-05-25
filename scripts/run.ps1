@@ -22,8 +22,8 @@ $domain = "http://localhost:8080"
 
 
 $contextHeaders = @{
-    widget_id='Phillip Scott Givens'
-    transaction_id='somevalue'
+    user_id='5d5299ef-16b8-4bbd-9e44-017cdf454d4c'
+    transaction_id='1745e060-1ac2-4796-8e60-cc8313dba6c5'
 }
 
 # # bad request
